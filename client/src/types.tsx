@@ -1,4 +1,3 @@
-
 type Address = {
   [K in 
     "country" |
@@ -30,4 +29,4 @@ type ServerDefaultData = {
   "updatedAt": string,
 }
 
-export type SetStateFunction = React.Dispatch<React.SetStateAction<UserData[]>>
+export type SetStateFunction = React.Dispatch<React.SetStateAction<any>>

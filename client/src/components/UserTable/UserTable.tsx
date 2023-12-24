@@ -16,7 +16,7 @@ export default function UserTable({users}:props){
         <tbody>
           {
             users.map((userData) => 
-              <UserRow key={userData._id} userData={userData}/>)
+              <UserRow key={userData._id} data={userData}/>)
           }
         </tbody>
       </table>

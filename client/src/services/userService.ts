@@ -20,7 +20,18 @@ export async function createUser (data: NewUserData){
 export async function getUsers(){
   let response = await fetch(baseUrl,{
     method: "GET",
-    headers: {"Content-Type" :"application/json"}
+    headers: {"Content-Type": "application/json"}
+  })
+  return response.json()
+}
+
+export async function editUser(data: UserData){
+  let response = await fetch(`${baseUrl}/${data._id}`,{
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      ...data,updatedAt: new Date().toDateString()
+    })
   })
   return response.json()
 }
