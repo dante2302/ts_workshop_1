@@ -1,12 +1,13 @@
 import UserRow from "./UserRow"
 import UserTableHeadings from "./UserTableHeadings"
-import { UserData } from "../../types"
+import { SetStateFunction, UserData } from "../../types"
 
 interface props{
   users: UserData[]
+  setUsers: SetStateFunction
 }
 
-export default function UserTable({users}:props){
+export default function UserTable({users, setUsers}:props){
   return(
     <div className="table-wrapper">
       <table className="table">
@@ -16,7 +17,7 @@ export default function UserTable({users}:props){
         <tbody>
           {
             users.map((userData) => 
-              <UserRow key={userData._id} userData={userData}/>)
+              <UserRow key={userData._id} data={userData} setUsers={setUsers}/>)
           }
         </tbody>
       </table>

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import { getUsers } from "../services/userService"
-import { UserData } from "../..//types"
+import { UserData } from "../types"
 import SearchForm from "./SearchForm"
 import UserTable from "./UserTable//UserTable"
-import AddNewUser from "./NewUser/AddNewUser"
+import AddNewUser from "./UserTable/AddNewUser"
 
 export default function UserSection(){
   const [users,setUsers] = useState([] as UserData[])
@@ -15,7 +15,7 @@ export default function UserSection(){
   return(
     <section className="card users-container">
       <SearchForm />
-      <UserTable users={users}/>
+      <UserTable users={users} setUsers={setUsers}/>
       <AddNewUser setUsers={setUsers}/>
     </section>
   )

@@ -1,29 +1,36 @@
 import { ChangeEvent, MouseEvent, useState } from "react"
-import { createUser } from "../../services/userService"
-import { NewUserData, SetStateFunction, UserData } from "../../types"
+import { createUser, editUser} from "../../services/userService"
+import { SetStateFunction, UserData } from "../../types"
 
 
 interface props{
   toggleModal: () => void;
-  setUsers: SetStateFunction
+  setState: SetStateFunction;
+  userData?: UserData;
 }
 
-export default function NewUserForm({toggleModal, setUsers}: props){
-  const defaultFormState = {
-    firstName: "",
-    lastName : "",
-    email: "",
-    phoneNumber: "",
-    imgUrl: "",
-    address:{
-      country: "",
-      city: "",
-      street: "",
-      streetNumber: "",
-    }
-  } 
+export default function UserForm({toggleModal, setState, userData}: props){
 
-  const [formState, setFormState] = useState<NewUserData>(defaultFormState)
+  let defaultFormState = 
+      userData 
+      ? 
+        JSON.parse(JSON.stringify(userData))
+      :
+      {
+        firstName: "",
+        lastName : "",
+        email: "",
+        phoneNumber: "",
+        imgUrl: "",
+        address:{
+          country: "",
+          city: "",
+          street: "",
+          streetNumber: "",
+        }
+      } 
+
+  const [formState, setFormState] = useState<UserData>(defaultFormState)
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -45,9 +52,19 @@ export default function NewUserForm({toggleModal, setUsers}: props){
     for(let field in formState){
       if(field === '')return
     }
-    let response = await createUser(formState)
-    setUsers((users) => ([...users,response]))
-    toggleModal()
+
+    if(userData){
+      let response = await editUser(formState);
+      setState(response);
+      toggleModal()
+      console.log(response)
+    }
+
+    else{
+      let response = await createUser(formState)
+      setState((users: UserData[]) => ([...users,response]))
+      toggleModal()
+    }
   }
 
   return(
