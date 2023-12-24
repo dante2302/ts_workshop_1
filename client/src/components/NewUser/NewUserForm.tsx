@@ -1,31 +1,43 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react"
-import { UserData } from "./types"
-import { createUser } from "./userService"
+import { ChangeEvent, MouseEvent, useState } from "react"
+import { createUser } from "../../services/userService"
+import { NewUserData, SetStateFunction, UserData } from "../../types"
 
 
 interface props{
-  toggleModal: () => void
+  toggleModal: () => void;
+  setUsers: SetStateFunction
 }
 
-export default function NewUserForm({toggleModal}: props){
-
+export default function NewUserForm({toggleModal, setUsers}: props){
   const defaultFormState = {
     firstName: "",
     lastName : "",
     email: "",
     phoneNumber: "",
     imgUrl: "",
-    country: "",
-    city: "",
-    street: "",
-    streetNumber: "",
+    address:{
+      country: "",
+      city: "",
+      street: "",
+      streetNumber: "",
+    }
   } 
 
-  const [formState, setFormState] = useState<UserData>(defaultFormState)
+  const [formState, setFormState] = useState<NewUserData>(defaultFormState)
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
-    setFormState(state => ({...state, [e.target.name]: e.target.value }))
+    setFormState(formState => ({...formState, [e.target.name]: e.target.value }))
+  }
+
+  const addressChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setFormState(formState => (
+      {...formState, 
+        address:
+        {...formState.address, [e.target.name]: e.target.value  }
+      }
+    ))
   }
 
   const submitHandler = async (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
@@ -33,8 +45,9 @@ export default function NewUserForm({toggleModal}: props){
     for(let field in formState){
       if(field === '')return
     }
-    let a = await createUser(formState)
-    console.log(a)
+    let response = await createUser(formState)
+    setUsers((users) => ([...users,response]))
+    toggleModal()
   }
 
   return(
@@ -135,8 +148,8 @@ export default function NewUserForm({toggleModal}: props){
                     id="country" 
                     name="country" 
                     type="text" 
-                    value={formState.country}
-                    onChange={(e) => changeHandler(e)}
+                    value={formState.address.country}
+                    onChange={(e) => addressChangeHandler(e)}
                   />
                 </div>
               </div>
@@ -148,8 +161,8 @@ export default function NewUserForm({toggleModal}: props){
                     id="city" 
                     name="city" 
                     type="text" 
-                    value={formState.city}
-                    onChange={(e) => changeHandler(e)}
+                    value={formState.address.city}
+                    onChange={(e) => addressChangeHandler(e)}
                   />
                 </div>
               </div>
@@ -164,8 +177,8 @@ export default function NewUserForm({toggleModal}: props){
                     id="street" 
                     name="street" 
                     type="text" 
-                    value={formState.street}
-                    onChange={(e) => changeHandler(e)}
+                    value={formState.address.street}
+                    onChange={(e) => addressChangeHandler(e)}
                   />
                 </div>
               </div>
@@ -177,8 +190,8 @@ export default function NewUserForm({toggleModal}: props){
                     id="streetNumber" 
                     name="streetNumber" 
                     type="text" 
-                    value={formState.streetNumber}
-                    onChange={(e) => changeHandler(e)}
+                    value={formState.address.streetNumber}
+                    onChange={(e) => addressChangeHandler(e)}
                   />
                 </div>
               </div>
