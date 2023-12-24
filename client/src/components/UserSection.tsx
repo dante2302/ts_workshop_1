@@ -15,7 +15,7 @@ export default function UserSection(){
   return(
     <section className="card users-container">
       <SearchForm />
-      <UserTable users={users}/>
+      <UserTable users={users} setUsers={setUsers}/>
       <AddNewUser setUsers={setUsers}/>
     </section>
   )

@@ -1,22 +1,29 @@
 import { useState } from "react"
-import { UserData } from "../../types"
+import { SetStateFunction, UserData } from "../../types"
 import UserDetail from "./UserDetail"
 import UserForm from "./UserForm"
+import DeleteUserModal from "./DeleteUser"
 
-export default function UserRow({data}: {data: UserData}){
+interface props{
+  data: UserData;
+  setUsers: SetStateFunction;
+}
+
+export default function UserRow({data, setUsers}: props){
   const [userData, setUserData] = useState(data)
   const [isInfo, setInfo] = useState(false)
   const [isDeleting, setDeleting] = useState(false)
   const [isEditing, setEditing] = useState(false)
 
-  const toggleInfo = () => setInfo(!isInfo)
-  const toggleDelete = () => setDeleting(!isDeleting)
-  const toggleEdit = () => setEditing(!isEditing)
+  const toggleInfo = () => {setInfo(!isInfo)}
+  const toggleDelete = () => {setDeleting(!isDeleting)}
+  const toggleEdit = () => {setEditing(!isEditing)}
 
   return(
     <>
       {isInfo && <UserDetail userData={userData} close={toggleInfo} />}
       {isEditing && <UserForm userData={userData} toggleModal={toggleEdit} setState={setUserData} />}
+      {isDeleting && <DeleteUserModal userData={userData} toggleModal={toggleDelete} setUsers={setUsers}/>}
     <tr>
       <td>
         <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"

@@ -35,3 +35,11 @@ export async function editUser(data: UserData){
   })
   return response.json()
 }
+
+export async function deleteUser(_id: string){
+  let response = await fetch(`${baseUrl}/${_id}`,{
+    method: "DELETE",
+    headers: {"Content-Type": "application/json"}
+  })
+  return response.json()
+}
