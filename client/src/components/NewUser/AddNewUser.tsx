@@ -1,7 +1,12 @@
 import { useState } from "react"
 import NewUserForm from "./NewUserForm"
+import { SetStateFunction } from "../../types"
 
-export default function AddNewUser(){
+interface props{
+  setUsers: SetStateFunction
+}
+
+export default function AddNewUser({setUsers}: props){
 
   const [modal,setModal] = useState(false)
   const toggleModal = () => setModal(!modal)
@@ -10,7 +15,7 @@ export default function AddNewUser(){
     <>
       <button className="btn-add btn" onClick={toggleModal}>Add new user</button>
       {modal&&
-        <NewUserForm toggleModal={toggleModal}/>
+        <NewUserForm toggleModal={toggleModal} setUsers={setUsers}/>
       }
     </>
   )
