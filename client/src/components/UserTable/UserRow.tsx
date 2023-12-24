@@ -1,7 +1,19 @@
+import { useState } from "react"
 import { UserData } from "../../types"
+import UserDetail from "./UserDetail"
 
 export default function UserRow({userData}: {userData: UserData}){
+  const [isInfo, setInfo] = useState(false)
+  const [isDeleting, setDeleting] = useState(false)
+  const [isEditing, setEditing] = useState(false)
+
+  const toggleInfo = () => setInfo(!isInfo)
+  const toggleDelete = () => setDeleting(!isDeleting)
+  const toggleEdit = () => setEditing(!isEditing)
+
   return(
+    <>
+      {isInfo && <UserDetail userData={userData} close={toggleInfo} />}
     <tr>
       <td>
         <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
@@ -31,7 +43,7 @@ export default function UserRow({userData}: {userData: UserData}){
             </path>
           </svg>
         </button>
-        <button className="btn info-btn" title="Info">
+        <button className="btn info-btn" title="Info" onClick={toggleInfo}>
           <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="info"
             className="svg-inline--fa fa-info" role="img" xmlns="http://www.w3.org/2000/svg"
             viewBox="-150 0 512 612">
@@ -42,6 +54,7 @@ export default function UserRow({userData}: {userData: UserData}){
         </button>
       </td>
     </tr>
+    </>
   )
 }
 
