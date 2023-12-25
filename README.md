@@ -1,12 +1,9 @@
+# ts_workshop_1
+A workshop from the Softuni course "ReactJS - October 2023" with the purpose of practicing typescript.
 
-# A workshop from the Softuni course "ReactJS - October 2023" with the purpose of practicing typescript.
-
-### Resources:
+### Workshop resources:
     -HTML structure;
     -Styling;
     
-### Requirements fullfilled: 
-    -Create;
-    -Read;
-    -Update;
-    -Delete;
+### Requirements: 
+    - Creating a CRUD app 
