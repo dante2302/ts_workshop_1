@@ -1,15 +1,30 @@
 import UserRow from "./UserRow"
 import UserTableHeadings from "./UserTableHeadings"
 import { SetStateFunction, UserData } from "../../types"
+import LoadingSpinner from "../LoadingSpinner"
+import { getUsers } from "../../services/userService"
+import { useEffect, useState } from "react"
 
 interface props{
-  users: UserData[]
-  setUsers: SetStateFunction
+  users: [] | UserData[]
+  setUsers: SetStateFunction;
 }
 
-export default function UserTable({users, setUsers}:props){
+export default function UserTable({users, setUsers}: props){
+
+  const [isLoading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    getUsers()
+      .then((users) => setUsers(Object.values(users)))
+      .finally(() => setLoading(false))
+  },[])
+
   return(
     <div className="table-wrapper">
+      {isLoading && 
+        <LoadingSpinner />}
       <table className="table">
         <thead>
           <UserTableHeadings />
@@ -26,10 +41,6 @@ export default function UserTable({users, setUsers}:props){
 }
 //         <!-- Overlap components  -->
 //
-//         <!-- <div class="loading-shade"> -->
-//         <!-- Loading spinner  -->
-//         <!-- <div class="spinner"></div> -->
-// <!-- 
 //         No users added yet  -->
 //
 //         <!-- <div class="table-overlap">

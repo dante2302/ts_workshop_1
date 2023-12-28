@@ -3,7 +3,6 @@ import Footer from "./Footer"
 import UserSection from "./UserSection"
 
 function App() {
-
   return (
     <>
       <Header />
